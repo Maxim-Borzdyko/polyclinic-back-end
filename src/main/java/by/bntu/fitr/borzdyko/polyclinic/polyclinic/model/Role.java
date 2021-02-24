@@ -1,29 +1,16 @@
 package by.bntu.fitr.borzdyko.polyclinic.polyclinic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+public enum Role {
 
-import javax.persistence.*;
-import java.util.List;
+    ADMIN("ADMIN"), USER("USER");
 
-@Entity
-@Table(name = "role")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Role {
+    private final String name;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    Role(String name) {
+        this.name = name;
+    }
 
-    @Column(name = "title")
-    private String title;
-
-    @JsonIgnore
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-    private List<User> users;
+    public String getName() {
+        return name;
+    }
 }

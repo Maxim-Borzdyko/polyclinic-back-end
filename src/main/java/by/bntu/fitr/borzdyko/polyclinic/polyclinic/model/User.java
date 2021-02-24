@@ -18,6 +18,10 @@ public class User {
     @Column(name = "id")
     private long id;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
     @Column(name = "username")
     private String username;
 
@@ -32,10 +36,6 @@ public class User {
 
     @Column(name = "second_name")
     private String secondName;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 
     @JsonIgnore
     @ToString.Exclude
