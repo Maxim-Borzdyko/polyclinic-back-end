@@ -1,33 +1,45 @@
 package by.bntu.fitr.borzdyko.polyclinic.polyclinic.controller;
 
-import by.bntu.fitr.borzdyko.polyclinic.polyclinic.model.Doctor;
+import by.bntu.fitr.borzdyko.polyclinic.polyclinic.dto.DoctorDto;
+import by.bntu.fitr.borzdyko.polyclinic.polyclinic.mapper.DoctorMapper;
 import by.bntu.fitr.borzdyko.polyclinic.polyclinic.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/doctors")
 public class DoctorController {
 
     private final DoctorService doctorService;
+    private final DoctorMapper doctorMapper;
 
     @Autowired
-    public DoctorController(DoctorService doctorService) {
+    public DoctorController(DoctorService doctorService, DoctorMapper doctorMapper) {
         this.doctorService = doctorService;
+        this.doctorMapper = doctorMapper;
     }
 
     @GetMapping("/all")
-    public List<Doctor> getAll() {
-        return doctorService.getAll();
+    public List<DoctorDto> getAll() {
+        return doctorService.getAll()
+                .stream().map(doctorMapper::toDto).collect(Collectors.toList());
     }
 
-    // @RequestBody ADD
-//    @PostMapping("/add")
-//    public Doctor addDoctor() {
-//        return doctorService.addUser(user);
-//    }
+    @PostMapping("/add")
+    public DoctorDto addDoctor(@RequestBody DoctorDto doctorDto) {
+        return doctorMapper.toDto(doctorService.addDoctor(doctorMapper.toEntity(doctorDto)));
+    }
+
+    @PostMapping("/update")
+    public DoctorDto updateDoctor(@RequestBody DoctorDto doctor){
+        return doctorMapper.toDto(doctorService.update(doctorMapper.toEntity(doctor)));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteDoctor(@PathVariable("id") DoctorDto doctor) {
+        doctorService.delete(doctorMapper.toEntity(doctor));
+    }
 }
