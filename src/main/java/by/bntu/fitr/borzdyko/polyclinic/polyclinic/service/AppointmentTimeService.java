@@ -10,12 +10,12 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TimeService {
+public class AppointmentTimeService {
 
     private final AppointmentTimeRepository timeRepository;
 
     @Autowired
-    public TimeService(AppointmentTimeRepository timeRepository) {
+    public AppointmentTimeService(AppointmentTimeRepository timeRepository) {
         this.timeRepository = timeRepository;
     }
 
