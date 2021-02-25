@@ -3,9 +3,8 @@ package by.bntu.fitr.borzdyko.polyclinic.polyclinic.controller;
 import by.bntu.fitr.borzdyko.polyclinic.polyclinic.model.Record;
 import by.bntu.fitr.borzdyko.polyclinic.polyclinic.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,9 +24,18 @@ public class RecordController {
         return recordService.getAll();
     }
 
-    // @RequestBody ADD
-//    @PostMapping("/add")
-//    public Record addUser() {
-//        return recordService.addRecord(record);
-//    }
+    @PostMapping("/add")
+    public Record addRecord(@RequestBody Record record) {
+        return recordService.addRecord(record);
+    }
+
+    @PostMapping("/update")
+    public Record updateRecord(@RequestBody Record record) {
+        return recordService.update(record);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteRecord(@PathVariable("id") Record record) {
+        recordService.delete(record);
+    }
 }
