@@ -9,47 +9,57 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 
-    private User user;
+    private String username;
+    private String password;
+    private Collection<? extends GrantedAuthority> grantedAuthorities;
+
+    public static SecurityUser fromUserToSecurityUser(User user) {
+        SecurityUser securityUser = new SecurityUser();
+        securityUser.username = user.getUsername();
+        securityUser.password = user.getPassword();
+        securityUser.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
+        return securityUser;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().getName()));
+        return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

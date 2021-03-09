@@ -3,7 +3,6 @@ package by.bntu.fitr.borzdyko.polyclinic.polyclinic.security;
 import by.bntu.fitr.borzdyko.polyclinic.polyclinic.model.User;
 import by.bntu.fitr.borzdyko.polyclinic.polyclinic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public SecurityUser loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("Username doesn't exists"));
-        return new SecurityUser(user);
+        return SecurityUser.fromUserToSecurityUser(user);
     }
 }
