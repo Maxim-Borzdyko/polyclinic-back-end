@@ -5,6 +5,7 @@ The project is a server-side REST service that allows users to make appointments
 Used technologies:
 * back-end: Spring Boot, Spring Security;
 * data: MySQL, MongoDB, Hibernate, Spring Data;
+* authentication: JWT.
 
 ## Roadmap
 
